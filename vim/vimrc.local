@@ -16,11 +16,13 @@ map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
     exec "w"
     if &filetype == 'c'
-        exec "!g++ % -o %<"
+        exec "!g++ % -o %< -std=c++11"
         exec "! ./%<"
     elseif &filetype == 'cpp'
-        exec "!g++ % -o %<"
-        exec "! ./%<"
+        echo "Compiling ..."
+        exec "!g++ % -o %< -std=c++17"
+        echo "Compiled successfully ..."
+        exec "! %<"
     elseif &filetype == 'java' 
         exec "!javac %" 
         exec "!java %<"
@@ -46,9 +48,11 @@ map <F12> gg=G
 
 " 选中状态下 Ctrl+c 复制
 vmap <C-c> "+y
+" 多次黏贴
+xnoremap p pgvy
 
 " 头文件源文件跳转
-" nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <silent> <F2> :A<CR>
 
 autocmd BufNewFile *.c,*.cpp,*.sh,*.py,*.java exec ":call SetTitle()"                                                                                       
@@ -69,7 +73,7 @@ func SetTitle()
         "如果文件类型为.sh文件
         if &filetype == 'shell'  
                 call setline(1, "\#!/bin/sh")
-                call setline(2, "\# Author: 你的名字")
+                call setline(2, "\# Author: JoeAaron")
                 call setline(3, "\# Created Time : ".strftime("%c"))
                 call setline(4, "\# File Name: ".expand("%"))
                 call setline(5, "\# Description:")
@@ -80,7 +84,7 @@ func SetTitle()
                 call setline(1, "\#!/usr/bin/env python")
                 call setline(2, "\# -*- coding=utf8 -*-")
                 call setline(3, "\"\"\"")
-                call setline(4, "\# Author: 你的名字")
+                call setline(4, "\# Author: JoeAaron")
                 call setline(5, "\# Created Time : ".strftime("%c"))
                 call setline(6, "\# File Name: ".expand("%"))
                 call setline(7, "\# Description:")
@@ -91,7 +95,7 @@ func SetTitle()
         if &filetype == 'java'  
                 call setline(1, "//coding=utf8")  
                 call setline(2, "/**")  
-                call setline(3, "\ *\ @Author: 你的名字")  
+                call setline(3, "\ *\ @Author: JoeAaron")  
                 call setline(4, "\ *\ @Created Time : ".strftime("%c"))  
                 call setline(5, "\ *\ @File Name: ".expand("%"))  
                 call setline(6, "\ *\ @Description:")  
@@ -119,3 +123,28 @@ endfunction
 filetype plugin indent on 
 "打开文件类型检测, 加了这句才可以用智能补全
 set completeopt=longest,menu
+
+"nerdtree
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+"插入块注释   /*  */
+vmap <F6> dO*/<Esc>PO/*<Esc>
+"插入条件编译注释
+vmap <F7> dO#endif<Esc>PO#if 0<Esc>
+"F11自动在当前位置插入日期
+map <F9> i<C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR><Esc>
+"添加函数头注释
+map <F10> <Esc>:Dox<cr>
+
+
