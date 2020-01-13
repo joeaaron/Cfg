@@ -1,5 +1,6 @@
 "主题颜色
-colorscheme elflord
+"colorscheme elflord
+colorscheme molokai
 "缩进方式
 set foldmethod=indent
 "去除高亮"
@@ -47,9 +48,10 @@ map! <C-A> <Esc>ggVGY
 map <F12> gg=G
 
 " 选中状态下 Ctrl+c 复制
-vmap <C-c> "+y
+vnoremap <C-c> "+y 
 " 多次黏贴
 xnoremap p pgvy
+vnoremap <C-v> "+p
 
 " 头文件源文件跳转
 nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -61,14 +63,12 @@ func SetTitle()
         "如果文件类型为.c或者.cpp文件
         if (&filetype == 'c' || &filetype == 'cpp')
                 call setline(1, "/*************************************************************************")  
-                call setline(2, "\ @Author: JoeAaron")  
-    		call setline(3, "\ @Email: pant333@163.com") 
-                call setline(4, "\ @Created Time : ".strftime("%Y-%m-%d %H:%M:%S"))  
-		call setline(5, "\ @Last Modified : ".strftime("%Y-%m-%d %H:%M:%S")) 
-                call setline(6, "\ @File Name: ".expand("%"))  
-                call setline(7, "\ @Description:")  
-                call setline(8, " ************************************************************************/")  
-                call setline(9,"")  
+                call setline(2, "\ @Author: T.PAN -- pant333@163.com")  
+                call setline(3, "\ @Created Time : ".strftime("%Y-%m-%d %H:%M:%S"))  
+		call setline(4, "\ @Last Modified : ".strftime("%Y-%m-%d %H:%M:%S")) 
+                call setline(5, "\ @Description:")  
+                call setline(6, " ************************************************************************/")  
+                call setline(7,"")  
         endif
         "如果文件类型为.sh文件
         if &filetype == 'shell'  
@@ -84,12 +84,11 @@ func SetTitle()
                 call setline(1, "\#!/usr/bin/env python")
                 call setline(2, "\# -*- coding=utf8 -*-")
                 call setline(3, "\"\"\"")
-                call setline(4, "\# Author: JoeAaron")
-                call setline(5, "\# Created Time : ".strftime("%c"))
-                call setline(6, "\# File Name: ".expand("%"))
-                call setline(7, "\# Description:")
-                call setline(8, "\"\"\"")
-                call setline(9,"")
+                call setline(4, "Created on ".strftime("%d.%m.%Y"))
+		call setline(5, "")
+                call setline(6, "@Author: T.PAN -- pant333@163.com")
+                call setline(7, "\"\"\"")
+                call setline(8,"")
         endif
         "如果文件类型为.java文件
         if &filetype == 'java'  
@@ -138,7 +137,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Unknown"   : "?"
     \ }
 
-"插入块注释   /*  */
+"插入块注释   /*  */
 vmap <F6> dO*/<Esc>PO/*<Esc>
 "插入条件编译注释
 vmap <F7> dO#endif<Esc>PO#if 0<Esc>
@@ -146,5 +145,3 @@ vmap <F7> dO#endif<Esc>PO#if 0<Esc>
 map <F9> i<C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR><Esc>
 "添加函数头注释
 map <F10> <Esc>:Dox<cr>
-
-
